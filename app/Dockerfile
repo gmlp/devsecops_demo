@@ -21,10 +21,8 @@ FROM maven:3.6.0-jdk-8 as build
 
 COPY src /usr/src/app/src  
 COPY pom.xml /usr/src/app  
-COPY settings.xml /root/.m2/settings.xml 
 
-RUN mvn -f /usr/src/app/pom.xml surefire:test \
-  && mvn -f /usr/src/app/pom.xml clean package -DskipTests=true
+RUN  mvn -f /usr/src/app/pom.xml clean package
 
 FROM openjdk:8-jdk-alpine
 VOLUME /tmp
