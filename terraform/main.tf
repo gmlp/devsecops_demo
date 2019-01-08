@@ -58,7 +58,6 @@ resource "null_resource" "install_docker" {
     host = "${aws_instance.docker.public_ip}"
   }
   provisioner "remote-exec" {
-
     inline = [
       "sudo apt-get clean",
       "sudo apt-get update",
@@ -69,6 +68,17 @@ resource "null_resource" "install_docker" {
       "sudo apt-get install -y docker-ce",
       "sudo usermod -a ubuntu -G docker",
       "sudo docker swarm init"
+    ]
+  }
+  provisioner "file" {
+    source = "../stacks/vault.yaml"
+    destination = "/tmp/vault.yaml"
+  }
+  
+  provisioner "remote-exec" {
+    inline = [
+      "docker network create -d overlay vault",
+      "docker stack deploy -c /tmp/vault.yaml vault",
     ]
   }
 
