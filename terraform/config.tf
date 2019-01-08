@@ -4,7 +4,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "tf-remote-state-training-nov"
-    key = "tf_pipeline_DoU/terraform.tfstate"
+    key = "devsecops_demo/terraform.tfstate"
     region = "us-east-1"
   }
 }
