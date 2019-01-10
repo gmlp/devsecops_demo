@@ -7,7 +7,7 @@ currentBuild.displayName = new SimpleDateFormat("yy.MM.dd").format(new Date()) +
     agent {
         docker {
             image readProperties.imagePipeline
-            args '-v tf_plugins:/plugins --network host'
+            args '-v tf_plugins:/plugins'
         }
     }
     environment {
@@ -83,7 +83,7 @@ currentBuild.displayName = new SimpleDateFormat("yy.MM.dd").format(new Date()) +
         stage('destroy') {
             when { expression{ env.BRANCH_NAME ==~ /dev.*/ || env.BRANCH_NAME ==~ /PR.*/ }}
             steps {
-                sh 'cd terraform && terraform destroy -force -input=false'
+                destroyInfra()
             }
         }
     }
